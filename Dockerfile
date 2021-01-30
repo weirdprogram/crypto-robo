@@ -1,5 +1,9 @@
 FROM node:14.15.4-buster-slim
 
+ENV RESTART_DELAY 60000
+
 WORKDIR /usr/src/crypto-robo
 
-CMD [ "tail", "-f", "/dev/null" ]
+COPY . .
+
+RUN npm install
