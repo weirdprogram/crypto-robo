@@ -6,4 +6,14 @@ WORKDIR /usr/src/crypto-robo
 
 COPY . .
 
+WORKDIR /usr/src/crypto-robo/cmd
+
+RUN npm install
+
+WORKDIR /usr/src/crypto-robo/api
+
+RUN npm install
+
+WORKDIR /usr/src/crypto-robo/app
+
 RUN npm install
