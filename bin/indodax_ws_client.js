@@ -21,8 +21,8 @@ const channels = [
     for(let c of channels){
         cIndodax.subscribe(c, function(message) {
             const msg = JSON.stringify(message) + Os.EOL;
-            const dataFile = `${new Date().toJSON().slice(0,10).replace(/-/g, "")}_trade.json`;
-            Fs.writeFileSync("/usr/src/crypto-robo/data/" + dataFile, msg, {flag: "as+"});
+            const dataFile = `${process.env.DATA_FOLDER}/${new Date().toJSON().slice(0,10).replace(/-/g, "")}_trade.json`;
+            Fs.writeFileSync(dataFile, msg, {flag: "as+"});
         });
     }
 
