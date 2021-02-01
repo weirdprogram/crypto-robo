@@ -12,11 +12,16 @@ clear:
 	docker rm ${NAME}
 stop:
 	docker stop ${NAME}
+run:
+	docker run --rm -it \
+	-e NODE_ENV='development' \
+	-e RESTART_DELAY=$(RESTART_DELAY) \
+	-v ${PWD}:/usr/src/crypto-robo \
+	--name ${NAME} -d ${NAME} tail -f /dev/null
 run-dev:
 	docker run --rm -it \
 	-e NODE_ENV='development' \
 	-e RESTART_DELAY=$(RESTART_DELAY) \
-	-p ${PORT}:${PORT} \
 	-v ${PWD}:/usr/src/crypto-robo \
 	--name ${NAME} -d ${NAME} npx pm2 start index.js --restart-delay=${RESTART_DELAY} --no-daemon
 run-production:
