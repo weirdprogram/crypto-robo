@@ -20,7 +20,7 @@ run:
 	-v ${PWD}:/usr/src/crypto-robo \
 	--name ${NAME} -d ${NAME} tail -f /dev/null
 run-indodax-ws-client:
-	docker run --rm -it \
+	podman run --rm -it \
     -e DATA_FOLDER=/usr/src/crypto-robo/data \
     -v /Users/support/GitHub/weirdprogram/crypto-robo:/usr/src/crypto-robo \
     --name weirdprogram-crypto-robo-indodax-ws-client -d weirdprogram-crypto-robo node bin/indodax_ws_client.js
