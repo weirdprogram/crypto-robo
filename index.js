@@ -1,47 +1,24 @@
 
-const fetch = require('node-fetch');
+const Fetch = require('node-fetch');
+const Centrifuge = require("centrifuge");
+const WebSocket = require('ws');
 
-let alertConf = {
-        "tickers":{
-            "doge_idr":{
-            "last": {
-                "lt": 600
-            }
+(function(){
+    const cIndodax = new Centrifuge('wss://ws.indodax.com/ws/', {websocket: WebSocket});
+
+    cIndodax.setToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaW5mbyI6eyJuYW1lIjoiUHVibGljIn19.VJAHTrrfwxceSITpuPBl75LVM5bgojKGiUTOwCZxw-k");
+
+    cIndodax.subscribe("dogeidr.trade", function(message) {
+        if(message.data.price >= 600){
+            console.log(message.data);
         }
-    }    
-};
+    });
 
-(async function(){
-    const rsummaries =  await fetch('https://indodax.com/api/summaries');
-    const summaries = await rsummaries.json();
-    const alert = [];
-
-    for(let [k1, v1]  of Object.entries(alertConf.tickers)){
-        
-        for(let [k2, v2]  of Object.entries(alertConf.tickers[k1])){
-            const testVal = summaries.tickers[k1][k2];
-
-            for(let [k3, v3]  of Object.entries(alertConf.tickers[k1][k2])){
-                let testResult = false;
-                switch(k3){
-                    case "lt":
-                        testResult = (testVal < v3);
-                    break;
-                    case "gt":
-                        testResult = (testVal > v3)
-                    break;
-                }
-
-                if(testResult){
-                    let alertData = {};
-                    alertData[k1] = alertConf.tickers[k1][k2];
-                    alert.push(alertData);
-                }
-            }
+    cIndodax.subscribe("ethidr.trade", function(message) {
+        if(message.data.price >= 20000000){
+            console.log(message.data);
         }
-    }
+    });
 
-    console.log(alert);
-    process.exit(0);
+    cIndodax.connect();
 })()
-
