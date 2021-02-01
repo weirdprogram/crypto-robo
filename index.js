@@ -2,6 +2,7 @@
 const Fetch = require('node-fetch');
 const Centrifuge = require("centrifuge");
 const WebSocket = require('ws');
+const http = require('http');
 
 (function(){
     const cIndodax = new Centrifuge('wss://ws.indodax.com/ws/', {websocket: WebSocket});
@@ -22,3 +23,9 @@ const WebSocket = require('ws');
 
     cIndodax.connect();
 })()
+
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write('Hello World!');
+  res.end();
+}).listen(3000);
