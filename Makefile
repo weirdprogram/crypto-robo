@@ -19,6 +19,11 @@ run:
 	-p 3000:3000 \
 	-v ${PWD}:/usr/src/crypto-robo \
 	--name ${NAME} -d ${NAME} tail -f /dev/null
+run-indodax-ws-client:
+	docker run --rm -it \
+    -e DATA_FOLDER=/usr/src/crypto-robo/data \
+    -v /Users/support/GitHub/weirdprogram/crypto-robo:/usr/src/crypto-robo \
+    --name weirdprogram-crypto-robo-indodax-ws-client -d weirdprogram-crypto-robo node bin/indodax_ws_client.js
 run-dev:
 	podman run --rm -it \
 	-e NODE_ENV='development' \
