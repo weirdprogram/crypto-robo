@@ -10,10 +10,14 @@ const firebaseConfig = {
     appId: "1:533075399214:web:9f06177811a8c8285045bf",
     measurementId: "G-6BBMND45KP"
   };
-  // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const messaging = firebase.messaging();
 
-messaging.setBackgroundMessageHandler((payload)=>{
-    console.log(payload)
-})
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+    firebase.messaging();
+    
+    //background notifications will be received here
+    firebase.messaging().setBackgroundMessageHandler((payload) => {
+        console.log('payload', payload)
+    });
+}
