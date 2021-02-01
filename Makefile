@@ -23,7 +23,8 @@ run-indodax-ws-client:
 	podman run --rm -it \
     -e DATA_FOLDER=/usr/src/crypto-robo/data \
     -v ${PWD}:/usr/src/crypto-robo \
-    --name weirdprogram-crypto-robo-indodax-ws-client -d weirdprogram-crypto-robo node bin/indodax_ws_client.js
+    -w /usr/src/crypto-robo/cmd \
+    --name weirdprogram-crypto-robo-indodax-ws-client -d weirdprogram-crypto-robo node indodax_ws_client.js
 run-dev:
 	podman run --rm -it \
 	-e NODE_ENV='development' \
