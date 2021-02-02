@@ -1,8 +1,8 @@
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
-    event.waitUntil(self.clients.openWindow(event.notification.data.FCM_MSG.notification.click_action));
-    console.log()
-    // event.waitUntil(self.clients.openWindow("https://www.linkedin.com"));
+    if(event.notification.data.FCM_MSG.notification.click_action !== undefined){
+        event.waitUntil(self.clients.openWindow(event.notification.data.FCM_MSG.notification.click_action));
+    }
 });
 
 importScripts('https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js')
