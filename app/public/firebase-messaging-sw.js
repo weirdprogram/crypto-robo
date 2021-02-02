@@ -1,3 +1,10 @@
+self.addEventListener('notificationclick', (event) => {
+    event.notification.close();
+    event.waitUntil(self.clients.openWindow(event.notification.data.FCM_MSG.notification.click_action));
+    console.log()
+    // event.waitUntil(self.clients.openWindow("https://www.linkedin.com"));
+});
+
 importScripts('https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js')
 importScripts('https://www.gstatic.com/firebasejs/8.2.3/firebase-messaging.js')
 
@@ -12,28 +19,21 @@ const firebaseConfig = {
   };
 
 
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-    firebase.messaging();
-    
-    //background notifications will be received here
-    firebase.messaging().setBackgroundMessageHandler((payload) => {
 
-        const notificationTitle = payload.notification.title;
-        const notificationOptions = {
-            body: payload.notification.body,
-            icon: payload.notification.icon,
-            click_action: payload.notification.click_action
-        };
-        console.log("sender ")
-        return self.registration.showNotification(notificationTitle,
-            notificationOptions);
-    });
-}
+firebase.initializeApp(firebaseConfig);
+firebase.messaging();
 
-self.addEventListener('notificationclick', (event) => {
-    console.log("Listener ",event)
-    event.notification.close();
-    // event.waitUntil(self.clients.openWindow(event.notification.click_action));
-    event.waitUntil(self.clients.openWindow("https://wwww.yahoo.com"));
+//background notifications will be received here
+firebase.messaging().setBackgroundMessageHandler((payload) => {
+
+    const notificationTitle = payload.notification.title;
+    const notificationOptions = {
+        body: payload.notification.body,
+        icon: payload.notification.icon,
+        click_action: payload.notification.click_action,
+        data: payload.notification.click_action
+    };
+    console.log("sender ")
+    return self.registration.showNotification(notificationTitle,
+        notificationOptions);
 });
