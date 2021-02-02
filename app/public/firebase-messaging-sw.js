@@ -18,14 +18,20 @@ if (!firebase.apps.length) {
     
     //background notifications will be received here
     firebase.messaging().setBackgroundMessageHandler((payload) => {
-        const notification = payload.notification;
 
-        const notificationTitle = notification.title;
+        const notificationTitle = payload.notification.title;
         const notificationOptions = {
-            body: notification.body,
-            // icon: notification.icon
+            body: payload.notification.body,
+            icon: payload.notification.icon,
+            click_action: payload.notification.click_action
         };
+
         return self.registration.showNotification(notificationTitle,
             notificationOptions);
     });
 }
+
+self.addEventListener('notificationclick', (event) => {
+    event.notification.close();
+    clients.openWindow(event.notification.click_action);
+});

@@ -32,16 +32,25 @@ export default function Home() {
     
     function getMessage() {
       const messaging = firebase.messaging();
-      messaging.onMessage((message) =>{
-        console.log('foreground:', message.notification)
-        // const notification = message.notification;
-
-        // const notificationTitle = notification.title;
-        // const notificationOptions = {
-        //     body: notification.body,
-        //     icon: notification.icon
-        // };
-        // notification = new Notification(notificationTitle,  notificationOptions);
+      messaging.onMessage((payload) =>{
+        const notificationTitle = payload.notification.title;
+        const notificationOptions = {
+            body: payload.notification.body,
+            icon: payload.notification.icon
+        };
+        if (!("Notification" in window)) {
+          console.log("This browser does not support system notifications");
+        }
+        else if (Notification.permission === "granted") {
+            const notification = new Notification(notificationTitle,notificationOptions);
+            notification.onclick = (event) => {
+                event.preventDefault();
+                if(payload.notification.click_action !== undefined){
+                  window.open(payload.notification.click_action , '_blank');
+                }
+                notification.close();
+            }
+        }
       });
     }
   }, []);
