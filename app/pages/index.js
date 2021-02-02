@@ -13,6 +13,7 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
 
   const [Token, SetToken] = useState('Not registered');
+  const [TokenShow, SetTokenShow] = useState(false);
 
   useEffect(() => {
     setToken();
@@ -21,6 +22,7 @@ export default function Home() {
         const token = await firebaseCloudMessaging.init();
         if (token) {
           SetToken(token)
+          SetTokenShow(true)
           getMessage();
         }
       } catch (error) {
@@ -52,11 +54,12 @@ export default function Home() {
         </p>
 
         <div className={styles.grid}>
-
-          <a id="token" href="https://nextjs.org/docs" className={styles.card}>
+          
+          {TokenShow ?
+          <a href="https://nextjs.org/docs" className={styles.card}>
             <h3>Tokenmu &rarr;</h3>
             <p>{Token}</p>
-          </a>
+          </a> : null }
 
           <a href="https://nextjs.org/docs" className={styles.card}>
             <h3>Chart &rarr;</h3>
