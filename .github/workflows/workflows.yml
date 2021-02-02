@@ -5,6 +5,9 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: My first step
-        uses: docker://alpine:latest
+        shell: bash
+        run: |
+          time=$(date)
+          echo "::set-output name=time::$time"
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
