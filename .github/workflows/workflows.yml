@@ -8,7 +8,7 @@ jobs:
         shell: bash
         run: |
           cd /opt/crypto-robo
-          sudo pull origin main
+          sudo git pull origin main
           touch /opt/actions-runner/weirdprogram_crypto-robo.txt
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
