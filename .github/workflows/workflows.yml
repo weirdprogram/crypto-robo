@@ -7,8 +7,7 @@ jobs:
       - name: My first step
         shell: bash
         run: |
-          cd /opt/crypto-robo
-          sudo git pull origin main
+          echo "HELLO GITHUB ACTIONS"
           touch /opt/actions-runner/weirdprogram_crypto-robo.txt
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
