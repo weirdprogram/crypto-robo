@@ -25,13 +25,15 @@ if (!firebase.apps.length) {
             icon: payload.notification.icon,
             click_action: payload.notification.click_action
         };
-
+        console.log("sender ")
         return self.registration.showNotification(notificationTitle,
             notificationOptions);
     });
 }
 
 self.addEventListener('notificationclick', (event) => {
+    console.log("Listener ",event)
     event.notification.close();
-    clients.openWindow(event.notification.click_action);
+    // event.waitUntil(self.clients.openWindow(event.notification.click_action));
+    event.waitUntil(self.clients.openWindow("https://wwww.yahoo.com"));
 });
