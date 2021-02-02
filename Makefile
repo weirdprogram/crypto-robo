@@ -21,7 +21,7 @@ run:
 run-indodax-ws-client:
 	${CONTAINER_CMD} run --rm -it \
     -e DATA_FOLDER=/usr/src/crypto-robo/data \
-    -v ${PWD}:/usr/src/crypto-robo \
+    -v ${PWD}/data:/usr/src/crypto-robo/data:z \
     -w /usr/src/crypto-robo/cmd \
 	--name ${NAME}-indodax-ws-client -d ${NAME} npx pm2 start indodax_ws_client.js --no-daemon
 run-dev:
