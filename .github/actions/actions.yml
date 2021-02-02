@@ -1,9 +1,0 @@
-jobs:
-  my_first_job:
-    steps:
-      - name: My first step
-        uses: docker://alpine:latest
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: echo "::set-output name=time::$(date)"
-        run: echo $SSH_PRIVATE_KEY

@@ -1,8 +1,12 @@
+name: learn-github-actions
+on: [push]
 jobs:
   build:
     runs-on: self-hosted
     steps:
-      # This step checks out a copy of your repository.
-      - uses: actions/checkout@v2
-      # This step references the directory that contains the action.
-      - uses: ./.github/actions
+      - name: My first step
+        uses: docker://alpine:latest
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: echo "::set-output name=time::$(date)"
+        run: echo $SSH_PRIVATE_KEY
