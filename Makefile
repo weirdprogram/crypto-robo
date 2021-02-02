@@ -1,40 +1,37 @@
 NAME := weirdprogram-crypto-robo
-RESTART_DELAY := 60000
+CONTAINER_CMD := docker
 
 bash:
-	podman exec -it ${NAME} bash
+	${CONTAINER_CMD} exec -it ${NAME} bash
 logs:
-	podman logs -f ${NAME}
+	${CONTAINER_CMD} logs -f ${NAME}
 build:
-	podman build -t ${NAME} .
+	${CONTAINER_CMD} build -t ${NAME} .
 clear:
-	podman stop ${NAME} && \
-	podman rm ${NAME}
+	${CONTAINER_CMD} stop ${NAME} && \
+	${CONTAINER_CMD} rm ${NAME}
 stop:
-	podman stop ${NAME}
+	${CONTAINER_CMD} stop ${NAME}
 run:
-	podman run --rm -it \
+	${CONTAINER_CMD} run --rm -it \
 	-e NODE_ENV='development' \
-	-e RESTART_DELAY=$(RESTART_DELAY) \
 	-p 3000:3000 \
 	-v ${PWD}:/usr/src/crypto-robo \
 	--name ${NAME} -d ${NAME} tail -f /dev/null
 run-indodax-ws-client:
-	podman run --rm -it \
+	${CONTAINER_CMD} run --rm -it \
     -e DATA_FOLDER=/usr/src/crypto-robo/data \
     -v ${PWD}:/usr/src/crypto-robo \
     -w /usr/src/crypto-robo/cmd \
-    --name weirdprogram-crypto-robo-indodax-ws-client -d weirdprogram-crypto-robo node indodax_ws_client.js
+	--name ${NAME}-indodax-ws-client -d ${NAME} npx pm2 start indodax_ws_client.js --no-daemon
 run-dev:
-	podman run --rm -it \
+	${CONTAINER_CMD} run --rm -it \
 	-e NODE_ENV='development' \
-	-e RESTART_DELAY=$(RESTART_DELAY) \
 	-p 3000:3000 \
 	-v ${PWD}:/usr/src/crypto-robo \
-	--name ${NAME} -d ${NAME} npx pm2 start index.js --restart-delay=${RESTART_DELAY} --no-daemon
+	--name ${NAME} -d ${NAME} npx pm2 start index.js --no-daemon
 run-production:
-	podman run --rm -it \
-	-e RESTART_DELAY=$(RESTART_DELAY) \
+	${CONTAINER_CMD} run --rm -it \
 	-p 3000:3000 \
 	-e NODE_ENV='production' \
-	--name ${NAME} ${NAME} npx pm2 start index.js --restart-delay=${RESTART_DELAY} --no-daemon
+	--name ${NAME} ${NAME} npx pm2 start index.js --no-daemon

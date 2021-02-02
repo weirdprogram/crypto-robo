@@ -11,6 +11,7 @@ const channels = [
     "ethidr.trade",
     "xlmidr.trade",
     "xrpidr.trade",
+    "adaidr.trade"
 ];
 
 (function(){
@@ -21,7 +22,9 @@ const channels = [
     for(let c of channels){
         cIndodax.subscribe(c, function(message) {
             const msg = JSON.stringify(message) + Os.EOL;
+            
             const dataFile = `${process.env.DATA_FOLDER}/${new Date().toJSON().slice(0,10).replace(/-/g, "")}_trade.json`;
+
             Fs.writeFileSync(dataFile, msg, {flag: "as+"});
         });
     }
