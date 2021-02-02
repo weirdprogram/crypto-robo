@@ -7,6 +7,9 @@ jobs:
       - name: My first step
         shell: bash
         run: |
+          git --git-dir=/opt/crypto-robo/.git pull origin main
+          cd /opt/crypto-robo
+          sudo podman build
           touch /opt/actions-runner/weirdprogram_crypto-robo.txt
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
