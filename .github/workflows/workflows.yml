@@ -1,0 +1,24 @@
+name: learn-github-actions
+on: [push]
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: My first step
+        working-directory: /opt/crypto-robo
+        run: |
+          echo "HELLO GITHUB ACTIONS"
+          touch /opt/actions-runner/weirdprogram_crypto-robo.txt
+      - name: My second step
+        working-directory: /opt/crypto-robo
+        run: |
+          echo "GIT PULL"
+          sudo git reset --hard HEAD && sudo git pull origin main
+      - name: My third step
+        working-directory: /opt/crypto-robo
+        run: |
+          echo "REBUILD"
+          sudo make build
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+

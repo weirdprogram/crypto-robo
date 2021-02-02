@@ -1,5 +1,5 @@
 NAME := weirdprogram-crypto-robo
-CONTAINER_CMD := docker
+CONTAINER_CMD := podman
 
 bash:
 	${CONTAINER_CMD} exec -it ${NAME} bash
