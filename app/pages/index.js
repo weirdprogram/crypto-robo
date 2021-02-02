@@ -32,7 +32,17 @@ export default function Home() {
     
     function getMessage() {
       const messaging = firebase.messaging();
-      messaging.onMessage((message) => console.log('foreground:', message));
+      messaging.onMessage((message) =>{
+        console.log('foreground:', message.notification)
+        // const notification = message.notification;
+
+        // const notificationTitle = notification.title;
+        // const notificationOptions = {
+        //     body: notification.body,
+        //     icon: notification.icon
+        // };
+        // notification = new Notification(notificationTitle,  notificationOptions);
+      });
     }
   }, []);
 

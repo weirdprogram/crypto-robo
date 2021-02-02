@@ -18,6 +18,14 @@ if (!firebase.apps.length) {
     
     //background notifications will be received here
     firebase.messaging().setBackgroundMessageHandler((payload) => {
-        console.log('payload', payload)
+        const notification = payload.notification;
+
+        const notificationTitle = notification.title;
+        const notificationOptions = {
+            body: notification.body,
+            // icon: notification.icon
+        };
+        return self.registration.showNotification(notificationTitle,
+            notificationOptions);
     });
 }
