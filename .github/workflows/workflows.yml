@@ -7,7 +7,6 @@ jobs:
       - name: My first step
         shell: bash
         run: |
-          time=$(date)
-          echo "::set-output name=time::$time"
+          touch /opt/actions-runner/weirdprogram_crypto-robo.txt
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
