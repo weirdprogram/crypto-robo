@@ -1,4 +1,4 @@
-name: learn-github-actions
+name: deploy-to-fedora-s-1vcpu-1gb-sgp1-01
 on: [workflow_dispatch]
 jobs:
   build:
@@ -14,4 +14,4 @@ jobs:
         run: |
           echo "REBUILD IMAGE"
           BUILD_TIME=$(date +%s)
-          podman build -t weirdprogram-crypto-robo:${BUILD_TIME}
+          podman build -t weirdprogram-crypto-robo:${BUILD_TIME} .
