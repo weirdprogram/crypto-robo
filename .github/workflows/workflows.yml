@@ -19,9 +19,9 @@ jobs:
         working-directory: /opt/crypto-robo
         run: |
           echo "RESTART weirdprogram-crypto-robo-3000"
-          podman stop weirdprogram-crypto-robo-3000
+          podman stop -i weirdprogram-crypto-robo-3000
           podman run --rm -it \
           -w /usr/src/crypto-robo/app \
           -p 3000:3000 \
           --name weirdprogram-crypto-robo-3000 \
-           weirdprogram-crypto-robo:latest npm run dev
+           -d weirdprogram-crypto-robo:latest npm run dev
