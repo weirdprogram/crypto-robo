@@ -8,10 +8,20 @@ jobs:
         working-directory: /opt/crypto-robo
         run: |
           echo "GIT RESET & PULL"
-          sudo git reset --hard HEAD && sudo git pull origin main
+          git reset --hard HEAD && git pull origin main
       - name: Build image
         working-directory: /opt/crypto-robo
         run: |
           echo "REBUILD IMAGE"
           BUILD_TIME=$(date +%s)
-          podman build -t weirdprogram-crypto-robo:${BUILD_TIME} .
+          podman build -t weirdprogram-crypto-robo:latest -t weirdprogram-crypto-robo:${BUILD_TIME} .
+      - name: Restart weirdprogram-crypto-robo-3000
+        working-directory: /opt/crypto-robo
+        run: |
+          echo "RESTART weirdprogram-crypto-robo-3000"
+          podman stop weirdprogram-crypto-robo-3000
+          podman run --rm -it \
+          -w /usr/src/crypto-robo/app \
+          -p 3000:3000 \
+          --name weirdprogram-crypto-robo-3000 \
+           weirdprogram-crypto-robo:latest npm run dev
