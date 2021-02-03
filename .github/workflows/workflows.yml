@@ -4,21 +4,14 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - name: My first step
+      - name: Pulling latest code
         working-directory: /opt/crypto-robo
         run: |
-          echo "HELLO GITHUB ACTIONS"
-          touch /opt/actions-runner/weirdprogram_crypto-robo.txt
-      - name: My second step
-        working-directory: /opt/crypto-robo
-        run: |
-          echo "GIT PULL"
+          echo "GIT RESET & PULL"
           sudo git reset --hard HEAD && sudo git pull origin main
-      - name: My third step
+      - name: Build image
         working-directory: /opt/crypto-robo
         run: |
-          echo "REBUILD"
-          sudo make build
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
+          echo "REBUILD IMAGE"
+          BUILD_TIME=$(date +%s)
+          podman build -t weirdprogram-crypto-robo:${BUILD_TIME}
