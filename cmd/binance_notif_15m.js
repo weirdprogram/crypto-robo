@@ -57,7 +57,7 @@ const EMAProcess = () => {
 }
 
 
-execute = ['0','15','30','45', '35']
+execute = ['0','15','30','45']
 
 execute.forEach((value) => {
     cron.schedule(value+' 0-23 * * *', () => {
