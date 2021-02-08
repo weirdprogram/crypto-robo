@@ -35,5 +35,5 @@ func SetNotificationRoutes(router *gin.RouterGroup) {
 	* @apiErrorExample {json} List error
 	*    HTTP/1.1 500 Internal Server Error
 	 */
-	router.GET("/notification/send-single-target", notification.SendSingleTarget)
+	router.POST("/notification/send-alert-crypto", notification.AlertCryptoNotification)
 }

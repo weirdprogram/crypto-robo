@@ -19,9 +19,9 @@ def crossover_alert(df):
         return
 
     if current_high > current_low :
-        result = json.dumps({"alert": True, "type": "SELL", "close_price":df.close_price[1], "date":df.datetime[1]})
+        result = json.dumps({"alert": True, "type": "SELL", "close_price":df.close_price[1], "close_date":df.close_date[1], "close_date_ut":int(df.close_date_ut[1])})
     else:
-        result = json.dumps({"alert": True, "type": "BUY", "close_price":df.close_price[1], "date":df.datetime[1]})
+        result = json.dumps({"alert": True, "type": "BUY", "close_price":df.close_price[1], "close_date":df.close_date[1], "close_date_ut":int(df.close_date_ut[1])})
     
     print(result)
     sys.stdout.flush()
@@ -30,10 +30,11 @@ def crossover_alert(df):
 
 EMA_high = int(sys.argv[1])
 EMA_low = int(sys.argv[2])
+file_name = sys.argv[3]
 
-data = pd.read_json("data.json")
+data = pd.read_json(file_name)
 df = pd.DataFrame(data)
-df = df.sort_values(by=['datetime'], ascending=True)
+df = df.sort_values(by=['close_date'], ascending=True)
 
 df['EMA_high'] = round(df.close_price.ewm(span=EMA_high, adjust=False).mean(),2)
 df['EMA_low']  = round(df.close_price.ewm(span=EMA_low, adjust=False).mean(),2)
