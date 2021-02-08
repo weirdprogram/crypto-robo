@@ -3,6 +3,7 @@ module github.com/weirdprogram/crypto-robo/api
 go 1.15
 
 require (
+	github.com/NaySoftware/go-fcm v0.0.0-20190516140123-808e978ddcd2
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/golang/protobuf v1.4.3 // indirect
