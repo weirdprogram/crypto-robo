@@ -18,7 +18,7 @@ const initData = (URL, fileName) => {
         var json = JSON.parse("[]")
         datalist.forEach((data, key) => {
             if (Object.is(datalist.length - 1, key)) {
-                // TODO: Delete last record
+                return
             }
             openDate = convertDateTime(new Date(data[0]))
             closeDate = convertDateTime(new Date(data[6]))
@@ -44,10 +44,10 @@ const initData = (URL, fileName) => {
 
 const dataProcessing = (URL, fileName) => {
     axios.get(URL).then(res => {
-        data = res.data[0]
-        openDate = convertDateTime(new Date(data[0]))
-        closeDate = convertDateTime(new Date(data[6]))
-        closePrice = parseFloat(data[4])
+        dataBody = res.data[0]
+        openDate = convertDateTime(new Date(dataBody[0]))
+        closeDate = convertDateTime(new Date(dataBody[6]))
+        closePrice = parseFloat(dataBody[4])
         
         fs.readFile(fileName, function (error, data) {
             if(error) console.error(error)
@@ -56,7 +56,7 @@ const dataProcessing = (URL, fileName) => {
                 "open_date": openDate,
                 "close_date": closeDate,
                 "close_price": closePrice,
-                "close_date_ut": data[6]
+                "close_date_ut": dataBody[6],
             }
             json.push(data);
         
@@ -82,6 +82,7 @@ const EMAProcess = (fileName) => {
     var spawn = require('child_process').spawn;
     var process = spawn('python', ['./ema.py', highEMA, lowEMA, fileName]);
     process.stdout.on('data', (data) => {
+        console.log(data)
         if (data.alert) {
             sendNotification(data.type)
         }
@@ -126,7 +127,7 @@ pair30m.forEach((pair)=>{
     })
 })
 
-execute1h = ['0']
+execute1h = ['0','47']
 pair1h = ['DOGEUSDT']
 pair1h.forEach((pair)=>{
     interval = "1h"
@@ -135,7 +136,7 @@ pair1h.forEach((pair)=>{
  
     fileName = "candle_data_"+pair+"_"+interval+".json"
     initData(APIInitData, fileName)
-    
+
     execute1h.forEach((execute) => {
         cron.schedule(execute+' 0-23 * * *', () => {
             dataProcessing(APIProcessingData, fileName)
