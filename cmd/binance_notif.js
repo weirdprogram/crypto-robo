@@ -82,7 +82,6 @@ const EMAProcess = (fileName) => {
     var spawn = require('child_process').spawn;
     var process = spawn('python', ['./ema.py', highEMA, lowEMA, fileName]);
     process.stdout.on('data', (data) => {
-        console.log(data)
         if (data.alert) {
             sendNotification(data.type)
         }
@@ -95,7 +94,7 @@ pair15m = ['DOGEUSDT']
 pair15m.forEach((pair)=>{
     interval = "15m"
     APIProcessingData   = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=1'
-    APIInitData         = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=10'
+    APIInitData         = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=100'
 
     fileName = "candle_data_"+pair+"_"+interval+".json"
     initData(APIInitData, fileName)
@@ -114,7 +113,7 @@ pair30m = ['DOGEUSDT']
 pair30m.forEach((pair)=>{
     interval = "30m"
     APIProcessingData   = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=1'
-    APIInitData         = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=10'
+    APIInitData         = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=100'
  
     fileName = "candle_data_"+pair+"_"+interval+".json"
     initData(APIInitData, fileName)
@@ -127,12 +126,12 @@ pair30m.forEach((pair)=>{
     })
 })
 
-execute1h = ['0','47']
+execute1h = ['0']
 pair1h = ['DOGEUSDT']
 pair1h.forEach((pair)=>{
     interval = "1h"
     APIProcessingData   = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=1'
-    APIInitData         = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=10'
+    APIInitData         = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=100'
  
     fileName = "candle_data_"+pair+"_"+interval+".json"
     initData(APIInitData, fileName)
