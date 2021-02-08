@@ -69,21 +69,45 @@ const dataProcessing = (URL, fileName) => {
     })
 }
 
-const sendNotification = (notificationType) => {
-    //TODO: hit API AXIOS
+const sendNotification = (notification) => {
+    axios.post('http://localhost:8080/v1/notification/send-alert-crypto', {
+        type: notification.type,
+        pair: notification.pair,
+        indicator: notification.indicator,
+        close_price: notification.closePrice,
+        close_time: notification.closeTime,
+        url: "https://www.techinasia.com/jobs",
+      })
+      .then((response) => {
+        console.log(response);
+      }, (error) => {
+        console.log(error);
+    });
 }
 
-const EMAProcess = (fileName) => {
+
+const EMAProcess = (fileName, pair, interval) => {
     highEMA = 20;
     lowEMA = 5;
-
+    indicator = "EMA "+lowEMA+" & "+highEMA
+    
     //TODO: Add Trend MA
 
     var spawn = require('child_process').spawn;
     var process = spawn('python', ['./ema.py', highEMA, lowEMA, fileName]);
     process.stdout.on('data', (data) => {
-        if (data.alert) {
-            sendNotification(data.type)
+        var data = JSON.parse(data)
+        if (!data.alert) {
+            var notification = {
+                type: data.alert, 
+                pair: pair, 
+                interval: interval, 
+                indicator: indicator,
+                closePrice: data.close_price,
+                closeTime: data.close_date_ut,
+            };
+            console.log(notification)
+            sendNotification(notification)
         }
     });
 }
@@ -102,7 +126,7 @@ pair15m.forEach((pair)=>{
     execute15m.forEach((execute) => {
         cron.schedule(execute+' 0-23 * * *', () => {
             dataProcessing(APIProcessingData, fileName)
-            EMAProcess(fileName)
+            EMAProcess(fileName, pair, interval)
         })
     })
 })
@@ -121,7 +145,7 @@ pair30m.forEach((pair)=>{
     execute30m.forEach((execute) => {
         cron.schedule(execute+' 0-23 * * *', () => {
             dataProcessing(APIProcessingData, fileName)
-            EMAProcess(fileName)
+            EMAProcess(fileName, pair, interval)
         })
     })
 })
@@ -139,7 +163,7 @@ pair1h.forEach((pair)=>{
     execute1h.forEach((execute) => {
         cron.schedule(execute+' 0-23 * * *', () => {
             dataProcessing(APIProcessingData, fileName)
-            EMAProcess(fileName)
+            EMAProcess(fileName, pair, interval)
         })
     })
 })

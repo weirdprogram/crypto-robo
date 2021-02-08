@@ -5,8 +5,8 @@ type AlertCryptoNotificationRequest struct {
 	Pair       string  `json:"pair"`
 	Indicator  string  `json:"indicator"`
 	ClosePrice float64 `json:"close_price"`
-	CloseTime  string
-	URL        string
+	CloseTime  int     `json:"close_time"`
+	URL        string  `json:"url"`
 }
 
 type Notification struct {
