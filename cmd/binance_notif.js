@@ -12,8 +12,7 @@ const convertDateTime = (fullDateTime) => {
     return datetime
 }
 
-const initData = (URL, pair, interval) => {
-    fileName = "candle_data_"+pair+"_"+interval+".json"
+const initData = (URL, fileName) => {
     axios.get(URL).then(res => {
         datalist = res.data
         var json = JSON.parse("[]")
@@ -36,12 +35,11 @@ const initData = (URL, pair, interval) => {
         fs.writeFile(fileName, JSON.stringify(json), (error)=> {
             if(error) console.error(error)
         })
-
+        
+        
     }).catch(error => {
         console.error(error)
     })
-
-    return fileName
 }
 
 const dataProcessing = (URL, fileName) => {
@@ -97,13 +95,14 @@ pair15m.forEach((pair)=>{
     interval = "15m"
     APIProcessingData   = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=1'
     APIInitData         = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=10'
- 
-    filename = initData(APIInitData, pair, interval)
+
+    fileName = "candle_data_"+pair+"_"+interval+".json"
+    initData(APIInitData, fileName)
 
     execute15m.forEach((execute) => {
         cron.schedule(execute+' 0-23 * * *', () => {
             dataProcessing(APIProcessingData, fileName)
-            EMAProcess(filename)
+            EMAProcess(fileName)
         })
     })
 })
@@ -116,12 +115,13 @@ pair30m.forEach((pair)=>{
     APIProcessingData   = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=1'
     APIInitData         = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=10'
  
-    filename = initData(APIInitData, pair, interval)
+    fileName = "candle_data_"+pair+"_"+interval+".json"
+    initData(APIInitData, fileName)
 
     execute30m.forEach((execute) => {
         cron.schedule(execute+' 0-23 * * *', () => {
             dataProcessing(APIProcessingData, fileName)
-            EMAProcess(filename)
+            EMAProcess(fileName)
         })
     })
 })
@@ -133,12 +133,13 @@ pair1h.forEach((pair)=>{
     APIProcessingData   = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=1'
     APIInitData         = 'https://api.binance.com/api/v1/klines?symbol='+pair+'&interval='+interval+'&limit=10'
  
-    filename = initData(APIInitData, pair, interval)
-
+    fileName = "candle_data_"+pair+"_"+interval+".json"
+    initData(APIInitData, fileName)
+    
     execute1h.forEach((execute) => {
         cron.schedule(execute+' 0-23 * * *', () => {
             dataProcessing(APIProcessingData, fileName)
-            EMAProcess(filename)
+            EMAProcess(fileName)
         })
     })
 })
